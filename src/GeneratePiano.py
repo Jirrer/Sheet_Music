@@ -3,8 +3,14 @@ import time
 import os
 from Note import Note
 
-#To-Do: fix middle c
-# change lines
+timeSignature = "4/4"
+
+lengthToSymbol = {1:"W",
+                  2:"H",
+                  4:"Q",
+                  8:"E",
+                  16:"S"
+}
 
 NotesToIndex = {"C4":17,
                 "D4":16,
@@ -53,15 +59,16 @@ def generateNotes(notesInput):
             else: note = "--"
 
             printedNote = False
-            for subIndex in index:
-                if row == NotesToIndex[subIndex.note]:
-                    board[row] += subIndex.lengOfNote; printedNote = True
-                    
-                    if subIndex.sharpFlat: board[row] += subIndex.sharpFlat
+            for notes in index:
+
+                if row == NotesToIndex[notes.note]:
+                    board[row] += lengthToSymbol[notes.lengOfNote]; printedNote = True
+
+                    if notes.sharpFlat: board[row] += notes.sharpFlat
                     else: board[row] += note[0]
-            
-            if printedNote:
-                continue
+
+            if printedNote: continue
+
             
             if (row < 26 and row > 8): board[row] += note
             else: board[row] += "  "
@@ -83,26 +90,36 @@ def validateNotesInput(input):
 
     
     # return input.split(',')
-    note1 = Note('A5', 'O', 'b')   # C-flat 4
-    note2 = Note('E4', 'O', '')    # E natural 4
-    note3 = Note('F4', 'Q', '#')   # F-sharp 4
-    note4 = Note('G4', 'Q', '')    # G natural 4
-    note5 = Note('A4', 'H', 'b')   # A-flat 4
-    note6 = Note('B4', 'H', '')    # B natural 4
-    note7 = Note('D4', 'O', '#')   # D-sharp 4
-    note8 = Note('E6', 'Q', '')
+    note1 = Note('C4', 4, '')   
+    note2 = Note('G4', 4, '')   
+    note3 = Note('A4', 2, '')   
+    note4 = Note('G4', 4, '')    
+    note5 = Note('F4', 4, '')   
+    note6 = Note('E4', 4, '')  
+    note7 = Note('D4', 4, '')   
+    note8 = Note('C4', 1, '')
 
 
 
     return [
-        (note1, note3),  # Cb4 and F#4 stacked
-        (note5,),        # Ab4
-        (note7,),        # D#4
-        (note2, note4),  # E4 and G4 stacked
-        (note6,),        # B4
-        (note8, note1),  # C4 and Cb4 stacked
+        (note1,),  
+        (note1,),     
+        (note2,),        
+        (note2,), 
+        (note3,),        
+        (note3,), 
+        (note4,),
+        (note5,),     
+        (note5,),        
+        (note6,), 
+        (note6,),        
+        (note7,), 
+        (note7,),
+        (note8,)
     ]
 
 
-if __name__ == "__main__" and len(sys.argv) == 2:
-    generateNotes(sys.argv[1])
+# if __name__ == "__main__" and len(sys.argv) == 2:
+#     generateNotes(sys.argv[1])
+
+if __name__ == "__main__": generateNotes(1)
