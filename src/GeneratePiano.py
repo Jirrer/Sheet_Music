@@ -39,87 +39,84 @@ NotesToIndex = {"C4":17,
                 'F7':-2,
                 'G7':-2,
                 'A7':-2,
-                'B7':-2,
-                
-              
+                'B7':-2,        
 }
 
+songNotes = None
 
-
-def generateNotes(notesInput):
-    notesArr = validateNotesInput(notesInput)
+def generateNotes():
+    global songNotes
 
     board = [" "] * 34
 
-    for index in notesArr:
-        os.system('cls' if os.name == 'nt' else 'clear')
+    for notesIndex in songNotes: 
+        for notes in notesIndex:
+            createNextLine(board, notes)
 
-        for row in range(len(board)):
-            if row % 2 == 0 or row == len(board) / 2: note = "  "
-            else: note = "--"
+        board = createNewMeasure(board)
 
-            printedNote = False
-            for notes in index:
+def createNextLine(board, currentNotes):
+    for row in range(len(board)):
+        if row % 2 == 0 or row == len(board) / 2: note = "  "
+        else: note = "--"
 
-                if row == NotesToIndex[notes.note]:
-                    board[row] += lengthToSymbol[notes.lengOfNote]; printedNote = True
+        printedNote = False
+        for notes in currentNotes:
+            if row == NotesToIndex[notes.note]:
+                board[row] += lengthToSymbol[notes.lengOfNote]; printedNote = True
 
-                    if notes.sharpFlat: board[row] += notes.sharpFlat
-                    else: board[row] += note[0]
+                if notes.sharpFlat: board[row] += notes.sharpFlat
+                else: board[row] += note[0]
 
-            if printedNote: continue
-
-            
+        if not printedNote:
             if (row < 26 and row > 8): board[row] += note
             else: board[row] += "  "
 
-        sys.stdout.write(f"\033[{len(board)}F")
 
-        for line in board: sys.stdout.write(f"\r{line.ljust(len(board))}\n")
+    updateBoard(board)
 
-        sys.stdout.flush()
-        time.sleep(0.2)
-
-
+def createNewMeasure(newBoard):
+    for row in range(len(newBoard)):
+        if (row < 26 and row > 8): newBoard[row] += " | "
+        else: newBoard[row] += "   "
     
+    return newBoard
+        
+def updateBoard(newBoard):
+    os.system('cls' if os.name == 'nt' else 'clear')
 
+    sys.stdout.write(f"\033[{len(newBoard)}F")
 
+    for line in newBoard: sys.stdout.write(f"\r{line.ljust(len(newBoard))}\n")
 
+    sys.stdout.flush()
+    time.sleep(0.2)
 
-def validateNotesInput(input):
+def validateNotesInput():
+    global songNotes
 
-    
     # return input.split(',')
     note1 = Note('C4', 4, '')   
     note2 = Note('G4', 4, '')   
-    note3 = Note('A4', 2, '')   
-    note4 = Note('G4', 4, '')    
+    note3 = Note('A4', 4, '')   
+    note4 = Note('G4', 2, '')    
     note5 = Note('F4', 4, '')   
     note6 = Note('E4', 4, '')  
     note7 = Note('D4', 4, '')   
     note8 = Note('C4', 1, '')
 
 
-
-    return [
-        (note1,),  
-        (note1,),     
-        (note2,),        
-        (note2,), 
-        (note3,),        
-        (note3,), 
-        (note4,),
-        (note5,),     
-        (note5,),        
-        (note6,), 
-        (note6,),        
-        (note7,), 
-        (note7,),
-        (note8,)
+    # by measure
+    songNotes = [((note1,),(note1,),(note2,),(note2,)),
+        ((note3,), (note3,), (note4,))
     ]
+
+    return True
 
 
 # if __name__ == "__main__" and len(sys.argv) == 2:
 #     generateNotes(sys.argv[1])
 
-if __name__ == "__main__": generateNotes(1)
+if __name__ == "__main__": 
+    if validateNotesInput(): generateNotes()
+    else: exit(2)
