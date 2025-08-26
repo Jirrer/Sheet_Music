@@ -3,6 +3,10 @@ import time
 import os
 from Note import Note
 
+# To-Do
+# Make time signiture
+# 
+
 timeSignature = "4/4"
 
 lengthToSymbol = {1:"W",
@@ -95,21 +99,42 @@ def updateBoard(newBoard):
 def validateNotesInput():
     global songNotes
 
-    # return input.split(',')
-    note1 = Note('C4', 4, '')   
-    note2 = Note('G4', 4, '')   
-    note3 = Note('A4', 4, '')   
-    note4 = Note('G4', 2, '')    
-    note5 = Note('F4', 4, '')   
-    note6 = Note('E4', 4, '')  
-    note7 = Note('D4', 4, '')   
-    note8 = Note('C4', 1, '')
+    measure = lambda *ns: tuple((n,) for n in ns)
 
-
-    # by measure
-    songNotes = [((note1,),(note1,),(note2,),(note2,)),
-        ((note3,), (note3,), (note4,))
-    ]
+    songNotes = [
+            measure(
+                Note('C4', 4, ''), Note('C4', 4, ''), 
+                Note('G4', 4, ''), Note('G4', 4, '')
+            ),
+            measure(
+                Note('A4', 4, ''), Note('A4', 4, ''), 
+                Note('G4', 2, '')
+            ),
+            measure(
+                Note('F4', 4, ''), Note('F4', 4, ''), 
+                Note('E4', 4, ''), Note('E4', 4, '')
+            ),
+            measure(
+                Note('D4', 4, ''), Note('D4', 4, ''), 
+                Note('C4', 2, '')
+            ),
+            measure(
+                Note('C4', 4, ''), Note('C4', 4, ''), 
+                Note('D4', 4, ''), Note('D4', 4, '')
+            ),
+            measure(
+                Note('E4', 4, ''), Note('E4', 4, ''), 
+                Note('F4', 2, '')
+            ),
+            measure(
+                Note('G4', 4, ''), Note('G4', 4, ''), 
+                Note('A4', 4, ''), Note('A4', 4, '')
+            ),
+            measure(
+                Note('B4', 4, ''), Note('B4', 4, ''), 
+                Note('C5', 2, '')
+            )
+        ]
 
     return True
 
