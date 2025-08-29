@@ -48,6 +48,10 @@ NotesToIndex = {"C4":17,
 
 songNotes = None
 
+def main(): 
+    if validateNotesInput(): generateNotes()
+    else: exit(2)
+
 def generateNotes():
     global songNotes
 
@@ -131,17 +135,9 @@ def validateNotesInput():
                 Note('A4', 4, ''), Note('A4', 4, '')
             ),
             measure(
-                Note('B4', 4, ''), Note('B4', 4, ''), 
-                Note('C5', 2, '')
+                Note('B4', 4, '#'), Note('B4', 4, 'B'), 
+                Note('C5', 2, '#')
             )
         ]
 
     return True
-
-
-# if __name__ == "__main__" and len(sys.argv) == 2:
-#     generateNotes(sys.argv[1])
-
-if __name__ == "__main__": 
-    if validateNotesInput(): generateNotes()
-    else: exit(2)
